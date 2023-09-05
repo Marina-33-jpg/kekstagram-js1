@@ -22,33 +22,6 @@ const getRandomPositiveInteger  = (a, b) => {
 //случайный выбор элемента массива
 const getRandomArrayElement  = (array) => array[getRandomPositiveInteger(0, array.length-1)];
 
-//на основе замыкания
-//генератор для получения уникальных идентификаторов   на основе замыкания
-function createIdGenerator () {
-  let lastGeneratedId = 0;
-
-  return function () {
-    lastGeneratedId += 1;
-    return lastGeneratedId;
-  };
-}
-//на основе замыкания
-//генератор для получения случайных уникальных идентификаторов из указанного диапазона(пока не будут все перебраны)
-function  createRandomIdFromRangeGenerator(min, max) {
-  const previousValues = [];
-  return function() {
-    let currentValue = getRandomPositiveInteger(min, max);
-    if (previousValues.length >= (max-min+1)) { // заменить скобку на ( Math.abs(max-min) +1 )
-      console.error('Перебраны все числа из диапазона от' + min +' до ' + max);
-      return null;
-    }
-    while (previousValues.includes(currentValue)) {
-      currentValue = getRandomPositiveInteger(min, max);
-    }
-    previousValues.push(currentValue);
-    return currentValue;
-  };
-}
 
 //сравнение строки комментария с максимальнодопустимой длиной
 const checkStringLength = (string, length) => string.length <= length;
