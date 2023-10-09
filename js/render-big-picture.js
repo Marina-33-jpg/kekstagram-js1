@@ -1,3 +1,5 @@
+import { onEscKeyDown } from '/js/user-modal.js';
+
 //отрисовка окна миниатюры в полноразмерном изображении
 //родительские узлы
 const bigPicture = document.querySelector('.big-picture');
@@ -5,7 +7,7 @@ const commentCount = document.querySelector('.social__comment-count');
 const commentList = document.querySelector('.social__comments');
 const commentsLoader = document.querySelector('.comments-loader');
 const body = document.querySelector('body');
-const cancelButton = document.querySelector('.big-picture__cancel');
+//const cancelButton = document.querySelector('.big-picture__cancel');
 
 // количество комментариев comment  как текстовое содержание  элемента comment-count
 // список комментариев под фото: должны вставляться в блок ('.social__comments')
@@ -33,7 +35,7 @@ const renderComments = (comments) => {
   commentList.append(fragment);
 };
 
-//закрываем окно
+/*закрываем окно
 const hideBigPicture = () => {
   bigPicture.classList.add('hidden');
   body.classList.remove('modal-open');
@@ -41,7 +43,7 @@ const hideBigPicture = () => {
 };
 //нажимаем клавишу 'Escape'
 function onEscKeyDown(evt) {
-  if (evt.key === 'Escape') {
+  if ( isEscapeKey ) {
     evt.preventDefault();
     hideBigPicture();//скрыть
   }
@@ -50,6 +52,8 @@ function onEscKeyDown(evt) {
 const onCancelButtonClick = () => {
   hideBigPicture();//скрыть
 };
+*/
+
 
 //для открытия полноразмерного окна миниатюры
 //каждый раз заполняем его данными о конкретной фотографии
@@ -78,6 +82,6 @@ const showBigPicture = (data) => {
   renderComments(data.comments);
 };
 
-cancelButton.addEventListener('click', onCancelButtonClick);
+//cancelButton.addEventListener('click', onCancelButtonClick);
 
 export { showBigPicture };

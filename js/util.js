@@ -30,4 +30,7 @@ const checkStringLength = (string, length) => string.length <= length;
 //Источник - http://github.com/you-dont-need/You-Dont-
 //Need-Ladash-Underscore#_random
 
-export {getRandomPositiveInteger, getRandomArrayElement, checkStringLength};
+const isEscapeKey = (evt) =>  evt.key === 'Escape';
+// выбор кнопки Escape
+
+export {getRandomPositiveInteger, getRandomArrayElement, checkStringLength,  isEscapeKey };

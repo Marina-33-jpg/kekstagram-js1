@@ -1,4 +1,4 @@
-import { showBigPicture } from '/js/render-big-picture.js';
+import { showBigPicture } from '/js/big-picture.js';
 // отрисовка на основе временных данных и шаблона #picture
 const container = document.querySelector('.pictures'); //родительский узел для контейнера
 const pictureTemplate = document
