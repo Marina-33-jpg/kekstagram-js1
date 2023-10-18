@@ -90,7 +90,7 @@ const createPhoto = (index) => ({
   url: `photos/${index}.jpg`,
   description: getRandomArrayElement(Descriptions),
   likes: getRandomPositiveInteger(15,200),
-  comments: Array.from( {length:getRandomPositiveInteger(0, 5)}, (_,commentIndex) => createComment(commentIndex +1) ),
+  comments: Array.from( {length:getRandomPositiveInteger(0, 32)}, (_,commentIndex) => createComment(commentIndex +1) ),
 });
 //на каждый index выбирается ссылка на фото с рандомным описанием,рандомным числом лайков и массивом с рандомным
 //размером,содержащим комментарии. Каждый комментарий создается с параметром сommentIndex, который увеличивается на 1

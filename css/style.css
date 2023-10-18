@@ -1403,3 +1403,11 @@ main {
 .hidden {
   display: none;
 }
+
+/* класс  для проверки с помощью pristine*/
+
+.img-upload_error {
+display: block;
+font-size: 0.85em;
+color: #c00;
+}
