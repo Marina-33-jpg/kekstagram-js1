@@ -1,3 +1,6 @@
+import '/js/effect.js';
+import '/js/scale.js';
+
 const form = document.querySelector('.img-upload__form'); //18
 const overlay = document.querySelector('.img-upload__overlay'); //43
 const body = document.querySelector('body');
