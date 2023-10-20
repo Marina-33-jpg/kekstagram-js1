@@ -4,8 +4,8 @@ const EFFECTS = [
     style: 'none',
     min: 0,
     max: 100,
-    step: 0,
-    unit: ''
+    step: 0, //=1
+    unit: '' //pusto
   },
   {
     name: 'chrome',
@@ -49,78 +49,75 @@ const EFFECTS = [
   }
 ];
 
-const imageElement = document.querySelector('.img-upload__preview img'); //56
-const effectsList = document.querySelector('.effects__list'); //71
+const image = document.querySelector('.img-upload__preview img'); //56
+const form = document.querySelector('.img-upload__form');
+//const effectsList = document.querySelector('.effects__list'); //71
 
-const sliderContainerElement = document.querySelector('.img-upload__effect-level');//60
-const sliderElement = document.querySelector('.effect-level__slider'); //62 -место отрисовки слайдера
-const valueElement = document.querySelector('.effect-level__value'); //61
+//const sliderContainerElement = document.querySelector('.img-upload__effect-level');//60
+const sliderLevel = document.querySelector('.effect-level__slider'); //62 -место отрисовки слайдера
+const effectLevel  = document.querySelector('.effect-level__value'); //61
 
-const defaultEffect = EFFECTS[0];
-let currentEffect = defaultEffect;
+const DEFAULT_EFFECT = EFFECTS[0];
+let chosenEffect = DEFAULT_EFFECT;
 
-const isDefault = () => currentEffect === defaultEffect;
+const isDefault = () => chosenEffect === DEFAULT_EFFECT;
 
-const showSlider = () => {
-  sliderContainerElement.classList.remove('hidden');
-};
 
-const hideSlider = () => {
-  sliderContainerElement.classList.add('hidden');
-};
-//слушатель событий слайдера - перетаскивание
 const updateSlider = () => {
-  sliderElement.noUiSlider.updateOptions({
+  sliderLevel.classList.remove('hidden');
+  sliderLevel.noUiSlider.updateOptions({
     range: {
-      min: currentEffect.min,
-      max: currentEffect.max
+      min: chosenEffect.min,
+      max: chosenEffect.max,
     },
-    start: currentEffect.max,
-    step: currentEffect.step
+    step: chosenEffect.step,
+    start: chosenEffect.max,
   });
 
   if (isDefault()) {
-    hideSlider();
-  } else {
-    showSlider();
+    sliderLevel.classList.add('hidden'); //при выборе эффекта ОРИГИНАЛ скрывается слайдер
   }
 };
-
-const onEffectsChange = (evt) => {
-  if(evt.target.classList.contains('effects__radio')) {
-    const effectName = evt.target.value;
-    imageElement.className = `effects__preview--${effectName}`;
-    currentEffect = EFFECTS.find((item) => item.name === effectName);
+const onFormChange = (evt) => {
+  if (!evt.target.classList.contains('effects__radio')) {
+    return;
   }
+  chosenEffect = EFFECTS.find((effect) => effect.name === evt.target.value); //
   updateSlider();
 };
+
 // колбек Update слайдера
 const onSliderUpdate = () => {
-  valueElement.value = sliderElement.noUiSlider.get();//меняем на новое значение элемент
+  image.style.filter = 'none';
+  image.className = '';
+  effectLevel.value = '';
   if (isDefault()) {
-    imageElement.style.filter = defaultEffect.style;
-  } else {
-    imageElement.style.filter = `${currentEffect.style}(${valueElement.value}${currentEffect.unit})`;
+    return;
   }
+  const sliderValue = sliderLevel.noUiSlider.get();
+  image.style.filter = `${chosenEffect.style}(${sliderValue}${chosenEffect.unit})`;
+  image.classList.add(`effects__preview--${chosenEffect.name}`);
+  effectLevel.value = sliderValue;
 };
 
 const resetEffects = () => {
-  currentEffect = defaultEffect;
+  chosenEffect = DEFAULT_EFFECT;
   updateSlider();
 };
 //создаем слайдер
-noUiSlider.create(sliderElement, {
+noUiSlider.create(sliderLevel, {
   range: {
-    min: currentEffect.min,
-    max: currentEffect.max
+    min: DEFAULT_EFFECT.min,
+    max: DEFAULT_EFFECT.max,
   },
-  start: currentEffect.max,
-  step: currentEffect.step,
-  connect: 'lower'
+  start: DEFAULT_EFFECT.max,
+  step: DEFAULT_EFFECT.step,
+  connect: 'lower',
 });
-hideSlider();
 
-effectsList.addEventListener('change', onEffectsChange);
-sliderElement.noUiSlider.on('update', onSliderUpdate);
+updateSlider();
+
+form.addEventListener('change', onFormChange);
+sliderLevel.noUiSlider.on('update', onSliderUpdate);
 
 export { resetEffects };

@@ -1,5 +1,5 @@
-import '/js/effect.js';
-import '/js/scale.js';
+import { resetScale } from '/js/scale.js';
+import { resetEffects } from '/js/effect.js';
 
 const form = document.querySelector('.img-upload__form'); //18
 const overlay = document.querySelector('.img-upload__overlay'); //43
@@ -30,6 +30,8 @@ const showModal = () => {
 
 const hideModal = () => {
   form.reset(); //закрываем и обнуляем поля формы
+  resetScale();
+  resetEffects();
   pristine.reset();
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
@@ -109,16 +111,7 @@ const validateTags3 = (value) => {
   return  hasUniqueTags(tags) ;
 };
 
-/*
-const prepareTags = (value) => {
-  const tags = value
-    .trim()
-    .split(' ')
-    .filter((tag) => tag.trim().length);
-  return tags;
-};
 //связываем пристин с валидацией
-*/
 pristine.addValidator(
   hashtagField,
   validateTags1,
@@ -138,7 +131,6 @@ pristine.addValidator(
 );
 
 //проверяем валидность вводимых хэштегов
-
 pristine.addValidator(
   hashtagField,
   validateTags,
