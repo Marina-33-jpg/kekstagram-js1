@@ -8,6 +8,7 @@ const cancelButton = document.querySelector('#upload-cancel'); //66 Закрыт
 const fileField = document.querySelector('#upload-file'); //38
 const hashtagField = document.querySelector('.text__hashtags'); //119
 const commentField = document.querySelector('.text__description'); //120
+const submitButton = form.querySelector('.img-upload__submit');
 
 const MAX_HASHTAG_COUNT = 5;
 const MIN_HASHTAG_LENGTH = 2;
@@ -136,20 +137,32 @@ pristine.addValidator(
   validateTags,
   'Неправильно заполнены хэштеги'
 );
-/*
+
 const blockSubmitButton = () => {
   submitButton.disabled = true;
+  submitButton.textContent = 'Отправляю...';
 };
 
 const unblockSubmitButton = () => {
   submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
 };
-*/
-const onFormSubmit = (evt) => { //126 Опубликовать
-  evt.preventDefault();
-  pristine.validate(); //запуск валидации пристин
+
+const setOnFormSubmit = (cb) => {
+  form.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();//запуск валидации пристин
+
+    if (isValid) {
+      blockSubmitButton();
+      await cb(new FormData(form));
+      unblockSubmitButton();
+    }
+  });
 };
+
 
 fileField.addEventListener('change', onFileInputChange); //Загрузить -открытие окна формы для загрузки изображения
 cancelButton.addEventListener('click', onCancelButtonClick); //Закрыть  -для закрытия формы редактирования изображения
-form.addEventListener('submit', onFormSubmit); //Опубликовать -для отправки данных на сервер
+
+export { setOnFormSubmit, hideModal };
